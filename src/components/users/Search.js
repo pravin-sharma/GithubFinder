@@ -13,8 +13,10 @@ export class Search extends Component {
 
     // on search input change - update state
     onChange = (event) => {
-        this.setState({[event.target.name]: event.target.value});
-    }   
+        this.setState({[event.target.name]: event.target.value},()=>{
+            //console.log(this.state.text);
+        });
+    }
 
     // on search - prop up
     onSearch = (event) =>{
