@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Search = ({ showAlert, searchUser, showClearButton }) => {
+const Search = ({ showAlert, searchUser, clearSearchResult, showClearButton }) => {
 
 
     const [text, setText] = useState('');
@@ -20,13 +20,13 @@ const Search = ({ showAlert, searchUser, showClearButton }) => {
             showAlert({ message: 'Please enter username', type: 'light' });
         } else {
             //pass as a prop to App.js and search in App.js
-            searchUser(text)
+            searchUser(text);
             setText('');
         }
     }
 
     // clear search - prop up
-    const clearSearchResult = () => {
+    const clearSearch = () => {
         clearSearchResult();
     }
 
@@ -35,7 +35,7 @@ const Search = ({ showAlert, searchUser, showClearButton }) => {
             <form className="form" onSubmit={onSearch}>
                 <input type="text" name="text" placeholder="Search User.." onChange={onChange} value={text} />
                 <input type="submit" value="Search" className="btn btn-dark btn-block" />
-                {showClearButton && <button type="button" className="btn btn-light btn-block" onClick={clearSearchResult}>Clear</button>}
+                {showClearButton && <button type="button" className="btn btn-light btn-block" onClick={clearSearch}>Clear</button>}
             </form>
         </div>
     )

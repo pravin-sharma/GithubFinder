@@ -17,6 +17,7 @@ class App extends Component {
   state = {
     users: [],
     user: {},
+    repos: [],
     isLoading: false,
     alert: null
   }
@@ -38,8 +39,16 @@ class App extends Component {
   showUserInfo = async (username) => {
     this.setState({loading: true});
     const result = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-    console.log(result.data);
+   // console.log(result.data);
     this.setState({user: result.data});
+  }
+
+  // Show a single User's Repos
+  showUserRepos = async (username) => {
+    this.setState({loading: true});
+    const result = await axios.get(`https://api.github.com/users/${username}/repos?sort=created:asc&per_page=5&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    //console.log(result.data);
+    this.setState({repos: result.data});
   }
 
 
@@ -85,8 +94,10 @@ class App extends Component {
                 render={props=>(  
                   <User   
                     {...props} 
-                    showUserInfo={this.showUserInfo} 
+                    showUserInfo={this.showUserInfo}
+                    showUserRepos={this.showUserRepos}
                     user={this.state.user} 
+                    repos={this.state.repos}
                     isLoading={this.state.isLoading}
                   />
                 )} 
