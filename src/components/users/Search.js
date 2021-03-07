@@ -6,8 +6,6 @@ const Search = ({ showAlert, searchUser, showClearButton }) => {
 
     const [text, setText] = useState('');
 
-
-
     // on search input change - update state
     const onChange = (event) => {
         setText(event.target.value)

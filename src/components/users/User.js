@@ -8,6 +8,7 @@ class User extends Component {
     }
 
     render() {
+        
         const {
             avatar_url,
             bio,
@@ -31,6 +32,7 @@ class User extends Component {
             public_repos,
             url
         } = this.props.user;
+        
 
         const {isLoading} = this.props;
         if(isLoading){
