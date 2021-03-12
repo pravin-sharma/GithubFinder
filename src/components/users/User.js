@@ -26,8 +26,6 @@ const User = ({ showUserInfo, showUserRepos, match, user, repos, isLoading }) =>
         public_repos,
     } = user;
 
-
-    // const {isLoading} = this.props;
     if (isLoading) {
         return <Spinner />
     } else {
