@@ -1,6 +1,8 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import axios from 'axios';
+import GithubState from './context/github/GithubState';
+import AlertState from './context/alert/AlertState';
+
 
 import './App.css';
 
@@ -13,99 +15,30 @@ import User from './components/users/User';
 
 const App = () => {
 
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
-  const [repos, setRepos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
-
-
-  // Search User
-  const searchUserFunction = async (text) => {
-    setIsLoading(true);
-
-    const result = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-
-    setUsers(result.data.items);
-    setIsLoading(false);
-  }
-
-  // Show a single User details using username/login name
-  const showUserInfoFunction = async (username) => {
-    setIsLoading(true);
-
-    const result = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-    // console.log(result.data);
-    setUser(result.data);
-    setIsLoading(false);
-  }
-
-  // Show a single User's Repos
-  const showUserReposFunction = async (username) => {
-    setIsLoading(true);
-    const result = await axios.get(`https://api.github.com/users/${username}/repos?sort=created:asc&per_page=5&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-    //console.log(result.data);
-    setRepos(result.data);
-    setIsLoading(false);
-  }
-
-
-  // Clear Search results
-  const clearSearchResultFunction = () => {
-    setUsers([]);
-  }
-
-  // Show Alert
-  const showAlert = ({ message, type }) => {
-    setAlert({ message, type });
-    setTimeout(() => {
-      setAlert(null);
-    }, 4000)
-  }
-
   return (
-    <Router>
-      <div className="App" >
-        < Navbar />
-        <div className='container'>
-          {alert && <Alert alert={alert} />}
-          <Switch>
-            <Route exact path='/' render={(props) => (
-              <Fragment>
-                <Search
-                  searchUser={searchUserFunction}
-                  clearSearchResult={clearSearchResultFunction}
-
-                  showClearButton={users.length > 0 ? true : false}
-                  showAlert={showAlert}
-                />
-                <Users
-                  users={users}
-                  isLoading={isLoading}
-                />
-              </Fragment>
-            )} />
-            <Route exact path='/about' component={About} />
-            <Route
-              exact path='/user/:login'
-              render={props => (
-                <User
-                  {...props}
-                  showUserInfo={showUserInfoFunction}
-                  showUserRepos={showUserReposFunction}
-
-                  user={user}
-                  repos={repos}
-                  isLoading={isLoading}
-                />
-              )}
-            />
-          </Switch>
-        </div>
-      </div>
-    </Router>
+    <GithubState>
+      <AlertState>
+        <Router>
+          <div className="App" >
+            < Navbar />
+            <div className='container'>
+              <Alert />
+              <Switch>
+                <Route exact path='/' render={(props) => (
+                  <Fragment>
+                    <Search />
+                    <Users />
+                  </Fragment>
+                )} />
+                <Route exact path='/about' component={About} />
+                <Route exact path='/user/:login' component={User} />
+              </Switch>
+            </div>
+          </div>
+        </Router>
+      </AlertState>
+    </GithubState>
   );
-
 }
 
 export default App;

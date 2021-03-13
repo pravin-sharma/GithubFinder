@@ -1,3 +1,5 @@
 import {createContext} from 'react'
 
-const GithubContext = createContext()
+const githubContext = createContext();
+
+export default githubContext;

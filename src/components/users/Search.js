@@ -1,10 +1,18 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useContext } from 'react'
+import GithubContext from '../../context/github/githubContext';
+import AlertContext from '../../context/alert/alertContext';
 
-const Search = ({ showAlert, searchUser, clearSearchResult, showClearButton }) => {
+
+const Search = () => {
 
 
     const [text, setText] = useState('');
+
+   const githubContext = useContext(GithubContext); 
+   const alertContext = useContext(AlertContext);
+
+   const {users, searchUser, clearUsers} = githubContext;
+   const {setAlert} = alertContext;
 
     // on search input change - update state
     const onChange = (event) => {
@@ -16,8 +24,8 @@ const Search = ({ showAlert, searchUser, clearSearchResult, showClearButton }) =
         event.preventDefault();
 
         if (text === '') {
-            // show alert
-            showAlert({ message: 'Please enter username', type: 'light' });
+            // set alert
+            setAlert({ message: 'Please enter username', type: 'light' });
         } else {
             //pass as a prop to App.js and search in App.js
             searchUser(text);
@@ -26,8 +34,8 @@ const Search = ({ showAlert, searchUser, clearSearchResult, showClearButton }) =
     }
 
     // clear search - prop up
-    const clearSearch = () => {
-        clearSearchResult();
+    const clearUserFunction = () => {
+        clearUsers();
     }
 
     return (
@@ -35,17 +43,11 @@ const Search = ({ showAlert, searchUser, clearSearchResult, showClearButton }) =
             <form className="form" onSubmit={onSearch}>
                 <input type="text" name="text" placeholder="Search User.." onChange={onChange} value={text} />
                 <input type="submit" value="Search" className="btn btn-dark btn-block" />
-                {showClearButton && <button type="button" className="btn btn-light btn-block" onClick={clearSearch}>Clear</button>}
+                { (users.length>0) && <button type="button" className="btn btn-light btn-block" onClick={clearUserFunction}>Clear</button>}
             </form>
         </div>
     )
 }
 
-Search.propTypes = {
-    showAlert: PropTypes.func.isRequired,
-    searchUser: PropTypes.func.isRequired,
-    clearSearchResult: PropTypes.func.isRequired,
-    showClearButton: PropTypes.bool.isRequired
-}
 
 export default Search

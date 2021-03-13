@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import Spinner from '../layouts/Spinner';
 import Repos from '../repos/Repos';
 import { Link } from 'react-router-dom';
 
-const User = ({ showUserInfo, showUserRepos, match, user, repos, isLoading }) => {
+import GithubContext from '../../context/github/githubContext'
+
+const User = ({ match }) => {
+
+    const githubContext = useContext(GithubContext);
+
+    const { getUser, getRepos, isLoading, user} = githubContext;
 
     useEffect(() => {
-        showUserInfo(match.params.login);
-        showUserRepos(match.params.login);
+        getUser(match.params.login);
+        getRepos(match.params.login);
         // eslint-disable-next-line
     }, [])
 
@@ -51,21 +57,14 @@ const User = ({ showUserInfo, showUserRepos, match, user, repos, isLoading }) =>
                     <div className="badge badge-dark">Public Repos: {public_repos}</div>
                     <div className="badge badge-light">Public Gist: {public_gists}</div>
                 </div>
-                <Repos repos={repos} />
+                <Repos />
             </div>
         )
     }
-
-
 }
 
 User.propTypes = {
-    showUserInfo: PropTypes.func.isRequired,
-    showUserRepos: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    repos: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    match: PropTypes.object.isRequired
 }
 
 export default User

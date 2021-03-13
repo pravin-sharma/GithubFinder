@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 
 function ReposItem({repoItem}) {
     //console.log(repoItem.name);
@@ -8,5 +10,7 @@ function ReposItem({repoItem}) {
         </div>
     )
 }
+
+ReposItem.propTypes = {repoItem: PropTypes.object.isRequired};
 
 export default ReposItem
