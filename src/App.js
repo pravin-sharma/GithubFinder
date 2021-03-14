@@ -11,6 +11,7 @@ import Alert from './components/layouts/Alert';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import User from './components/users/User';
+import PageNotFound from './components/pages/PageNotFound';
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
                 <Route exact path='/' component={Home} />
                 <Route exact path='/about' component={About} />
                 <Route exact path='/user/:login' component={User} />
+                <Route  component={PageNotFound} />
               </Switch>
             </div>
           </div>
