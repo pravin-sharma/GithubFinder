@@ -1,1 +1,1 @@
-###Github Finder App using Reactjs
+### Github Finder App using Reactjs
