@@ -1,4 +1,4 @@
-# Github User Finder App using Reactjs & GitHub AAPI
+# Github User Finding App using Reactjs & GitHub API
 
 ### Functionality:
 1. Search Users on GitHub
