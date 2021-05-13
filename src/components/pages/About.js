@@ -4,7 +4,7 @@ function About() {
     return (
         <Fragment>
             <h1>About</h1>
-            <p>lorem ipsum dolor sit amet, consectetur adip</p>
+            <p>This app will help you in finding GitHub Users and their information available on GitHub.</p>
         </Fragment>
     )
 }
